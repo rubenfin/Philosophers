@@ -1,0 +1,1 @@
+cc -Wall -Wextra -Werror *.c -o ./philo -g && valgrind --leak-check=full ./philo 5 200 200 200 200

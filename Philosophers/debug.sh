@@ -1,0 +1,1 @@
+cc -Wall -Wextra -Werror *.c -o ./philo -lpthread -g

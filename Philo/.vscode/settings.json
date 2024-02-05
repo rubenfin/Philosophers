@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "philosophers.h": "c",
+        "array": "c",
+        "memory": "c",
+        "ranges": "c",
+        "functional": "c",
+        "tuple": "c",
+        "utility": "c"
+    }
+}
