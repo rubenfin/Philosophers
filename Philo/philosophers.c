@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/21 14:33:16 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 17:09:08 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,16 @@ void	*philosophers(void *arg)
 		return (NULL);
 	}
 	if (philo->philo_num % 2 == 0)
-		get_usleep(philo->data->time_to_sleep);
+		sleeping(philo);
 	while (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 	{
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
-			&& !philo->full)
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 			eat(philo);
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
-			&& !philo->full)
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 			sleeping(philo);
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
-			&& !philo->full)
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 			thinking(philo);
-		if (get_bool(&philo->data->terminate_lock, &philo->data->terminate) || philo->full)
+		if (get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 			return (NULL);
 	}
 	return (NULL);
