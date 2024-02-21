@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:21 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/01/27 14:02:32 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 14:33:46 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void					use_mutex(t_mtx *mutex, t_opcode opcode);
 /*
 INITIALIZING
 */
-void					init_struct(int ac, char **av, t_data *data);
+int						init_struct(int ac, char **av, t_data *data);
 void					init_philos(t_data *data);
 
 /*

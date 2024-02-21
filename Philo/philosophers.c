@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/01/27 14:23:32 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 14:33:16 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,26 @@ void	*philosophers(void *arg)
 	set_long(&philo->data->time_lock, &philo->data->time_started,
 		get_curr_time_ms());
 	set_long(&philo->data->time_lock, &philo->last_meal_ms, get_curr_time_ms());
+	if (philo->data->num_of_philophers == 1)
+	{
+		printf("%ld %ld has taken a fork\n", get_time_passed(philo->data),
+			philo->philo_num);
+		return (NULL);
+	}
 	if (philo->philo_num % 2 == 0)
 		get_usleep(philo->data->time_to_sleep);
 	while (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 	{
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
+			&& !philo->full)
 			eat(philo);
-		else
-			return (NULL);
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
+			&& !philo->full)
 			sleeping(philo);
-		else
-			return (NULL);
-		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
+		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate)
+			&& !philo->full)
 			thinking(philo);
-		else
+		if (get_bool(&philo->data->terminate_lock, &philo->data->terminate) || philo->full)
 			return (NULL);
 	}
 	return (NULL);
@@ -93,7 +98,7 @@ void	check_alive(t_data *data)
 	while (i < data->num_of_philophers)
 	{
 		use_mutex(&data->eat_lock, LOCK);
-		if (last_meal(&data->philos[i]) - data->time_to_die > 0)
+		if ((last_meal(&data->philos[i]) - 4)- data->time_to_die > 0)
 		{
 			set_bool(&data->terminate_lock, &data->philos[i].dead, true);
 			died(&data->philos[i]);
@@ -112,6 +117,7 @@ void	check_alive(t_data *data)
 				set_bool(&data->terminate_lock, &data->terminate, true);
 				printf("%ld all philos are full\n", get_time_passed(data));
 				use_mutex(&data->print_lock, UNLOCK);
+				use_mutex(&data->eat_lock, UNLOCK);
 				break ;
 			}
 			i = 0;
@@ -123,13 +129,14 @@ void	check_alive(t_data *data)
 
 int	main(int ac, char **av)
 {
-	static t_data	data;
-	int				i;
+	t_data	data;
+	int		i;
 
 	i = -1;
 	if (ac == 5 || ac == 6)
 	{
-		init_struct(ac, av, &data);
+		if (!init_struct(ac, av, &data))
+			return (1);
 		init_philos(&data);
 		while (++i < data.num_of_philophers)
 			pthread_create(&data.philos[i].th_id, NULL, &philosophers,
@@ -144,5 +151,7 @@ int	main(int ac, char **av)
 		}
 		destroy_mutex(&data);
 	}
+	else
+		printf("usage: ./philo time_to_die time_to_eat time_to_sleep [number_of_times_each_philo_must_eat]\n");
 	return (0);
 }

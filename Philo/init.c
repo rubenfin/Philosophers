@@ -6,13 +6,13 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/27 11:57:57 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/01/27 12:58:44 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 14:36:14 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	init_struct(int ac, char **av, t_data *data)
+int	init_struct(int ac, char **av, t_data *data)
 {
 	int	i;
 
@@ -21,8 +21,21 @@ void	init_struct(int ac, char **av, t_data *data)
 	data->time_to_die = ft_atol(av[2]);
 	data->time_to_eat = ft_atol(av[3]);
 	data->time_to_sleep = ft_atol(av[4]);
+	if (data->num_of_philophers < 1 || data->time_to_die < 0
+		|| data->time_to_eat < 0 || data->time_to_sleep < 0)
+	{
+		printf("Invalid input\n");
+		return (0);
+	}
 	if (ac == 6)
+	{
 		data->total_to_eat = ft_atol(av[5]);
+		if (data->total_to_eat < 1)
+		{
+			printf("Invalid input\n");
+			return (0);
+		}
+	}
 	else
 		data->total_to_eat = -1;
 	data->all_threads_ready = false;
@@ -39,6 +52,7 @@ void	init_struct(int ac, char **av, t_data *data)
 	use_mutex(&data->eat_lock, INIT);
 	use_mutex(&data->terminate_lock, INIT);
 	use_mutex(&data->time_lock, INIT);
+	return (1);
 }
 
 void	init_philos(t_data *data)
