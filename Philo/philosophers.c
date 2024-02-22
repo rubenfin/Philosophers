@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/21 17:09:08 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/22 09:18:23 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ void	*philosophers(void *arg)
 	set_long(&philo->data->time_lock, &philo->last_meal_ms, get_curr_time_ms());
 	if (philo->data->num_of_philophers == 1)
 	{
-		printf("%ld %ld has taken a fork\n", get_time_passed(philo->data),
-			philo->philo_num);
+		print_action(philo, FORK);
 		return (NULL);
 	}
 	if (philo->philo_num % 2 == 0)
-		sleeping(philo);
+		get_usleep(philo->data->time_to_eat);
 	while (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 	{
 		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
@@ -59,9 +58,7 @@ void	*philosophers(void *arg)
 		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 			sleeping(philo);
 		if (!get_bool(&philo->data->terminate_lock, &philo->data->terminate))
-			thinking(philo);
-		if (get_bool(&philo->data->terminate_lock, &philo->data->terminate))
-			return (NULL);
+			print_action(philo, THINK);
 	}
 	return (NULL);
 }
@@ -95,7 +92,7 @@ void	check_alive(t_data *data)
 	while (i < data->num_of_philophers)
 	{
 		use_mutex(&data->eat_lock, LOCK);
-		if ((last_meal(&data->philos[i]) - 4)- data->time_to_die > 0)
+		if ((last_meal(&data->philos[i]))- data->time_to_die > 0)
 		{
 			set_bool(&data->terminate_lock, &data->philos[i].dead, true);
 			died(&data->philos[i]);
@@ -143,9 +140,7 @@ int	main(int ac, char **av)
 		check_alive(&data);
 		i = -1;
 		while (++i < data.num_of_philophers)
-		{
 			pthread_join(data.philos[i].th_id, NULL);
-		}
 		destroy_mutex(&data);
 	}
 	else

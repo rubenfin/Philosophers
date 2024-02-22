@@ -6,13 +6,14 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:21 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/21 14:33:46 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 18:21:18 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include <string.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -22,6 +23,14 @@
 
 typedef pthread_mutex_t	t_mtx;
 typedef struct s_data	t_data;
+
+typedef enum s_action
+{
+	EAT,
+	SLEEP,
+	THINK,
+	FORK,
+}						t_action;
 
 typedef enum s_opcode
 {
@@ -103,5 +112,6 @@ void					get_usleep(size_t milliseconds);
 long					get_curr_time_ms(void);
 long					get_time_passed(t_data *data);
 long					last_meal(t_philo *philo);
+void					print_action(t_philo *philo, t_action action);
 
 #endif

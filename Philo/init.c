@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/27 11:57:57 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/21 14:36:14 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/21 18:22:17 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	init_struct(int ac, char **av, t_data *data)
 {
 	int	i;
-
-	i = -1;
 	data->num_of_philophers = ft_atol(av[1]);
 	data->time_to_die = ft_atol(av[2]);
 	data->time_to_eat = ft_atol(av[3]);
@@ -41,6 +39,7 @@ int	init_struct(int ac, char **av, t_data *data)
 	data->all_threads_ready = false;
 	data->terminate = false;
 	data->philos = malloc(sizeof(t_philo) * data->num_of_philophers);
+	i = -1;
 	while (++i < data->num_of_philophers)
 		data->philos[i].th_id = (pthread_t)malloc(sizeof(pthread_t));
 	i = -1;
