@@ -6,14 +6,40 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/27 11:57:57 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/01 12:01:54 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/01 14:25:45 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	check_av(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < ac)
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (!ft_isdigit((av[i][j])) || j > 17)
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	set_and_check_args(int ac, char **av, t_data *data)
 {
+	if (!check_av(ac, av))
+		return (printf("Invalid input\n"), 0);
 	data->num_of_philophers = ft_atol(av[1]);
 	data->time_to_die = ft_atol(av[2]);
 	data->time_to_eat = ft_atol(av[3]);

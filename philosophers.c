@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/01 13:30:31 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/01 14:55:36 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	use_mutex(t_mtx *mutex, t_opcode opcode)
 	else
 	{
 		printf("WRONG OPCODE IN USE_MUTEX()\n");
-		exit(EXIT_FAILURE);
 	}
 }
 
@@ -102,6 +101,6 @@ int	main(int ac, char **av)
 		destroy_mutex(&data);
 	}
 	else
-		print_err();
+		return (print_err(), 1);
 	return (0);
 }
