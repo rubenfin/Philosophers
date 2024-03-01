@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:21 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/29 16:12:59 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/01 13:30:20 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,16 @@ int						init_struct(int ac, char **av, t_data *data);
 void					init_philos(t_data *data);
 
 /*
+MONITORING
+*/
+int						check_if_dead(t_data *data, long i);
+int						check_if_full(t_data *data, long full);
+void					monitor_philos(t_data *data);
+
+/*
 ACTIONS
 */
-void					eat(t_philo *philo);
-void					sleeping(t_philo *philo);
+int						eat(t_philo *philo);
 
 /*
 GETTERS AND SETTERS
@@ -102,11 +108,15 @@ void					set_long(t_mtx *mutex, long *value, long changed);
 /*
 UTILS
 */
-void					precise_usleep(size_t milliseconds);
 long					ft_atol(const char *nptr);
 void					get_usleep(size_t milliseconds);
 long					get_curr_time_ms(void);
 long					get_time_passed(t_data *data);
 long					last_meal(t_philo *philo);
+
+/*
+PRINT
+*/
+void					print_err(void);
 int						print_action(t_philo *philo, t_action_enum action_enum);
 #endif

@@ -1,4 +1,4 @@
-SRCS_MANDATORY = philosophers.c philo_utils.c ft_atol.c getters_setters.c actions.c init.c
+SRCS_MANDATORY = philosophers.c time.c ft_atol.c getters_setters.c actions.c init.c monitor.c print.c
 
 OBJS = $(SRCS_MANDATORY:%.c=$(OBJS_DIR)/%.o)
 OBJS_DIR = objs
