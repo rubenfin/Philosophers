@@ -6,31 +6,31 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 12:37:21 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/21 18:21:18 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/02/29 16:12:59 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <string.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
 
 typedef pthread_mutex_t	t_mtx;
 typedef struct s_data	t_data;
 
-typedef enum s_action
+typedef enum s_action_enum
 {
 	EAT,
 	SLEEP,
 	THINK,
 	FORK,
-}						t_action;
+}						t_action_enum;
 
 typedef enum s_opcode
 {
@@ -88,13 +88,8 @@ void					init_philos(t_data *data);
 /*
 ACTIONS
 */
-void					take_fork_even(t_philo *philo);
-void					take_fork_uneven(t_philo *philo);
-void					taken_fork(t_philo *philo);
 void					eat(t_philo *philo);
 void					sleeping(t_philo *philo);
-void					thinking(t_philo *philo);
-void					died(t_philo *philo);
 
 /*
 GETTERS AND SETTERS
@@ -107,11 +102,11 @@ void					set_long(t_mtx *mutex, long *value, long changed);
 /*
 UTILS
 */
+void					precise_usleep(size_t milliseconds);
 long					ft_atol(const char *nptr);
 void					get_usleep(size_t milliseconds);
 long					get_curr_time_ms(void);
 long					get_time_passed(t_data *data);
 long					last_meal(t_philo *philo);
-void					print_action(t_philo *philo, t_action action);
-
+int						print_action(t_philo *philo, t_action_enum action_enum);
 #endif

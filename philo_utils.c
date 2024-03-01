@@ -6,28 +6,28 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/26 16:12:00 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/02/22 09:14:53 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/01 11:00:03 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	print_action(t_philo *philo, t_action action)
-{
-	const char	*actions[4] = {"is eating", "is sleeping", "is thinking",
-			"has taken a fork"};
+static const char	*g_actions[5] = {"is eating", "is sleeping", "is thinking",
+			"has taken a fork", NULL};
 
+int	print_action(t_philo *philo, t_action_enum action_enum)
+{
 	if (get_bool(&philo->data->terminate_lock, &philo->data->terminate))
-		return ;
+		return (0);
 	use_mutex(&philo->data->print_lock, LOCK);
 	if (get_bool(&philo->data->terminate_lock, &philo->data->terminate))
 	{
 		use_mutex(&philo->data->print_lock, UNLOCK);
-		return ;
+		return(0);
 	}
-	printf("%ld %ld ", get_time_passed(philo->data), philo->philo_num);
-	printf("%s\n", actions[action]);
+	printf("%ld %ld %s\n", get_time_passed(philo->data), philo->philo_num,  g_actions[action_enum]);
 	use_mutex(&philo->data->print_lock, UNLOCK);
+	return(1);
 }
 
 void	get_usleep(size_t milliseconds)

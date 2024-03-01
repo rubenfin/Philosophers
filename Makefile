@@ -1,10 +1,10 @@
-SRCS_MANDATORY = actions.c ft_atoi.c inits.c philo_utils.c philosophers.c
+SRCS_MANDATORY = philosophers.c philo_utils.c ft_atol.c getters_setters.c actions.c init.c
 
 OBJS = $(SRCS_MANDATORY:%.c=$(OBJS_DIR)/%.o)
 OBJS_DIR = objs
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 VPATH = .
